@@ -20,11 +20,11 @@ cachedir.mkdir(parents=True, exist_ok=True)
 
 #: Sets the collision systems for the entire project,
 #: where each system is a string of the form
-#: ``'<projectile 1><projectile 2><beam energy in GeV>'``,
-#: such as ``'PbPb2760'``, ``'AuAu200'``, ``'pPb5020'``.
+#: ``'<projectile 1><projectile 2>@<beam energy in GeV>'``,
+#: such as ``'PbPb@2760'``, ``'AuAu@200'``, ``'pPb@5020'``.
 #: Even if the project uses only a single system,
 #: this should still be a list of one system string.
-systems = ['PbPb2760', 'PbPb5020']
+systems = ['PbPb@2760', 'PbPb@5020', 'Xe2Xe2@5440']
 
 
 def parse_system(system):
@@ -32,7 +32,7 @@ def parse_system(system):
     Parse a system string into a pair of projectiles and a beam energy.
 
     """
-    match = re.fullmatch('([A-Z]?[a-z])([A-Z]?[a-z])([0-9]+)', system)
+    match = re.fullmatch('([A-Z]?[a-z]?[2-3]?)([A-Z]?[a-z]?[2-3]?)[@]([0-9]+)', system)
     return match.group(1, 2), int(match.group(3))
 
 
