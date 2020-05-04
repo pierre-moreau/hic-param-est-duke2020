@@ -104,16 +104,23 @@ class Design:
     project, if not completely rewritten.
 
     """
-    def __init__(self, system, npoints=500, validation=False, seed=None):
+    def __init__(self, system, npoints=1000, validation=False, seed=None):
         self.system = system
         self.projectiles, self.beam_energy = parse_system(system)
         self.type = 'validation' if validation else 'main'
 
-        # 5.02 TeV has ~1.2x particle production as 2.76 TeV
+        # in case of validation, reduce the number of design points
+        if validation:
+            npoints = 50
+
+        # 5.02 TeV has ~1.25x particle production as 2.76 TeV
         # [https://inspirehep.net/record/1410589]
         norm_range = {
+            200: (2., 15.),
             2760: (8., 20.),
             5020: (10., 25.),
+            5440: (10., 25.),
+            7000: (12., 32.),
         }[self.beam_energy]
 
         self.keys, labels, self.range = map(list, zip(*[
@@ -208,6 +215,8 @@ class Design:
                     200: 4.2,
                     2760: 6.4,
                     5020: 7.0,
+                    5440: 7.08,
+                    7000: 7.32,
                 }[self.beam_energy]
             )
             kwargs.update(
